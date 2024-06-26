@@ -202,7 +202,7 @@ func (d *client) UploadTraces(ctx context.Context, protoSpans []*tracepb.Resourc
 			if _, err := io.Copy(io.Discard, resp.Body); err != nil {
 				otel.Handle(err)
 			}
-			return newResponseError(resp.Header)
+			return fmt.Errorf("failed to send to %s: %s", request.URL, resp.Status)
 		default:
 			return fmt.Errorf("failed to send to %s: %s", request.URL, resp.Status)
 		}
